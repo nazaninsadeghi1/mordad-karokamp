@@ -15,13 +15,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from django.shortcuts import HttpResponse
+from django.urls import path, include
 
-def jadid(request):
-    return HttpResponse("<h1 style='color:red;text-align:center;'>Hello</h1>")
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('jadid/',jadid),
+    path('', include('core.urls')),
+    
 ]
