@@ -16,7 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.shortcuts import HttpResponse
+
+def jadid(request):
+    return HttpResponse("<h1 style='color:red;text-align:center;'>Hello</h1>")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('jadid/',jadid),
 ]

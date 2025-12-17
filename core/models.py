@@ -45,7 +45,7 @@ admin_user = User.objects.filter(username='admin').first()
 class Post(models.Model):
     title = models.CharField('عنوان',max_length=50)
     content = models.TextField('توضیحات')
-    user = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True,verbose_name='کاربر')
+    user = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True,blank=True ,verbose_name='کاربر')
     created_at = models.DateTimeField('تاریخ ایجاد ',auto_now_add=True)
     updated_at = models.DateTimeField('تاریخ آخرین بروزرسانی',auto_now_add=True)
     visible = models.BooleanField('قابل مشاهده',default=False)
@@ -56,7 +56,7 @@ class Post(models.Model):
     category = models.CharField(max_length=20, choices= CategoryChoices,verbose_name='دسته بندی')
 
     def __str__(self):
-        return f'{self.title}-{self.user.email}'
+        return f'{self.title}'
 
     class Meta:
         verbose_name= 'پست'
