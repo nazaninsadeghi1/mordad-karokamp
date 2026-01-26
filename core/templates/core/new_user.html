@@ -9,23 +9,18 @@
 {% endblock %}
 
 {% block main %}
+<div class="row d-flex justify-content-center">
+    <div class="col-sm-6 m-3 p-4 border border-1 border-primary">
+        <form action="{% url 'new_user' %}" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+ 
 
-<form action="{% url 'new_user' %}" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <!-- <label for="title">عنوان: </label>
-    <input type="text" name="title" id="title">
-    <label for="content">محتوا: </label>
-    <textarea style="resize: none;" name="content" id="content" rows="10" cols="40" ></textarea>
-    <label for="user">کاربر: </label>
-    <input type="text", name="user" id="user">
-    <label for="category">موضوع: </label>
-    <input type="text" name="category" id="category">
+            <input type="submit" value="ایجاد" >
 
- -->
+        </form>
+    </div>
+</div>
 
-    <input type="submit" value="ایجاد" >
-
-</form>
 
 {% endblock %}
