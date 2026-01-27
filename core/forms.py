@@ -2,13 +2,19 @@ from datetime import datetime
 from unittest.loader import VALID_MODULE_NAME
 from xml.dom import ValidationErr
 from django import forms
-from core.models import  CityChoices
+from core.models import  CityChoices, CategoryChoices
 from core.models import User, Post
 
 
 
 class PostForm(forms.ModelForm):
     tag = forms.CharField(max_length=40, widget=forms.TextInput(attrs={"class":"form-control"}),help_text="اینجا تگ با # وارد شود")
+
+    title = forms.CharField(
+        widget=forms.TextInput(attrs={"class": "form-control", "autocomplete": "off"}),
+        label="تست عنوان",
+        help_text="اینجا عنوان پست رابنویسید"
+    )
     
     # category = forms.ChoiceField(
     #     widget = forms.RadioSelect(attrs={"class":"form-radio"}),
@@ -18,7 +24,7 @@ class PostForm(forms.ModelForm):
     
     class Meta:
         model = Post
-        fields = ["title", "content", "user", "visible", "show_to", "category", "tag"]
+        fields = ["title", "content", "user", "visible", "image", "show_to", "category", "tag"]
         widgets = {"content":forms.Textarea(attrs={"class":"form-control"}),
                    "category":forms.Select(attrs={"class":"form-radio"}),
                    }
@@ -76,6 +82,13 @@ class PostForm(forms.ModelForm):
     #         raise forms.ValidationError('این فیلد نمی تواند خالی باشد')
     #     return title
     
+
+# class UserCreationForm(forms.ModelForm):
+#     class Meta:
+#         model = User
+#         fields = [
+#             'username', 'password', 'birthdate', 'bio', 'city', 'email', 'close_friend'
+#         ]
         
 
 class UserCreationForm(forms.Form):
@@ -112,6 +125,25 @@ class UserCreationForm(forms.Form):
         if username in password:
             raise forms.ValidationError('نام کاربری نمی تواند بخشی از گذرواژه باشد')
         return data
+    
+
+
+class EditPostForm(forms.ModelForm):
+    category = forms.ChoiceField(
+        choices= CategoryChoices.choices,
+        widget= forms.Select(attrs={"class": "form-control"}),
+    )
+
+    user = forms.ModelChoiceField(
+        queryset= User.objects.all(), required= False,
+        widget= forms.Select(attrs={'class':'form-control','disabled':'on'}),
+    )
+    class Meta:
+        model = Post
+        fields = [
+            'content', 'show_to', 'visible','image', 'category', 'user'
+        ]
+
 
 
 

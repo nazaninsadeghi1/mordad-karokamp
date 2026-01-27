@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime
 
 class CityChoices(models.TextChoices):
     TEHRAN = ('tehran', 'تهران')
@@ -47,13 +48,14 @@ class Post(models.Model):
     content = models.TextField('توضیحات')
     user = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True,blank=True ,verbose_name='کاربر')
     created_at = models.DateTimeField('تاریخ ایجاد ',auto_now_add=True)
-    updated_at = models.DateTimeField('تاریخ آخرین بروزرسانی',auto_now_add=True)
+    updated_at = models.DateTimeField('تاریخ آخرین بروزرسانی',auto_now=True)
     visible = models.BooleanField('قابل مشاهده',default=False)
     show_to = models.CharField('نمایش برای',
         max_length=20 , choices=ShowToChoices.choices, default=ShowToChoices.NOBODY
         )
     is_deleted = models.BooleanField('حذف شده',default=False)
     category = models.CharField(max_length=20, choices= CategoryChoices,verbose_name='دسته بندی')
+    image = models.ImageField(upload_to=f"post_pictures/{datetime.now().strftime('%Y%m%d')}", null=True, blank=True)
 
     def __str__(self):
         return f'{self.title}'
